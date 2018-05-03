@@ -12,8 +12,13 @@ namespace Integration.Salesforce.Library.Validation
     public bool IsValid(string value)
     {
       if(!(value.Any(char.IsDigit)))
+      {
         return true;
-      return false;
+      }
+      else
+      {
+        return false;
+      }
     }
     public override string FormatErrorMessage(string name)
     {

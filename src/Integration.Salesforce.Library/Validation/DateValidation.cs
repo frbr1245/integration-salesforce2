@@ -14,9 +14,13 @@ namespace Integration.Salesforce.Library.Validation
       DateTime temp;
 
       if(DateTime.TryParse(Convert.ToString(value), out temp) == true)
+      {
         return true;
+      }
       else
+      {
         return false;
+      }
     }
 
     public override string FormatErrorMessage(string name)
