@@ -35,7 +35,7 @@ namespace Integration.Salesforce.Library.Models
       [Required]
       public Batch Batch { get; set; }
 
-      public override ToString()
+      public override string ToString()
       {
         return $"{FirstName} {LastName}, {Phone}, {Role}, {HasCar}, {Address}, {EMail}, {Batch}";
       }

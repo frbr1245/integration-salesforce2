@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Integration.Salesforce.Library.Models;
 
 namespace Integration.Salesforce.Service.Controllers
 {
@@ -12,7 +13,4 @@ namespace Integration.Salesforce.Service.Controllers
       return new List<Batch>();
     }
   }
-}
-//TODO: delete this and use actual class
-public class Batch {
 }
