@@ -133,6 +133,8 @@ namespace Integration.Salesforce.Context
                 // Receive the contact as a JSON object and map it to object model
                 // Add the mapped object to the list of mapped models
                 //JObject jsonContact = JObject.Parse(jsonContactAsString);
+                //modelList.Add(MapJsonToModel(jsonContact));
+
                 
                 //TODO: map contact from salesforce to object model
 
