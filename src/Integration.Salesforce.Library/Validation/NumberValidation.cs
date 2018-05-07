@@ -7,18 +7,25 @@ namespace Integration.Salesforce.Library.Validation
 {
     [AttributeUsage(AttributeTargets.Property |
         AttributeTargets.Field, AllowMultiple = false)]
-    sealed public class DateValidation : ValidationAttribute
+    sealed public class NumberValidation : ValidationAttribute
     {
         public override bool IsValid(object value)
         {
-        DateTime temp;
-
-        if(DateTime.TryParse(Convert.ToString(value), out temp) == true)
+        switch (Type.GetTypeCode(value.GetType()))
         {
+            case TypeCode.Byte:
+            case TypeCode.SByte:
+            case TypeCode.UInt16:
+            case TypeCode.UInt32:
+            case TypeCode.UInt64:
+            case TypeCode.Int16:
+            case TypeCode.Int32:
+            case TypeCode.Int64:
+            case TypeCode.Decimal:
+            case TypeCode.Double:
+            case TypeCode.Single:
             return true;
-        }
-        else
-        {
+            default:
             return false;
         }
         }

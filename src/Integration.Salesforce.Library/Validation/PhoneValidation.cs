@@ -2,25 +2,21 @@ using System;
 using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Integration.Salesforce.Library.Validation
 {
     [AttributeUsage(AttributeTargets.Property |
         AttributeTargets.Field, AllowMultiple = false)]
-    sealed public class DateValidation : ValidationAttribute
+    public class PhoneValidation : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        public bool IsValid(string number)
         {
-        DateTime temp;
-
-        if(DateTime.TryParse(Convert.ToString(value), out temp) == true)
+        if (Regex.Match(number, @"^([0-9]{10})$").Success)
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
         }
 
         public override string FormatErrorMessage(string name)

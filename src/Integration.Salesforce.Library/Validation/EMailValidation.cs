@@ -2,25 +2,22 @@ using System;
 using System.Globalization;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Integration.Salesforce.Library.Validation
 {
     [AttributeUsage(AttributeTargets.Property |
         AttributeTargets.Field, AllowMultiple = false)]
-    sealed public class DateValidation : ValidationAttribute
+    public class EMailValidation : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        public bool IsValid(string email)
         {
-        DateTime temp;
-
-        if(DateTime.TryParse(Convert.ToString(value), out temp) == true)
+        var address = new System.Net.Mail.MailAddress(email);
+        if (address.Address == email)
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
         }
 
         public override string FormatErrorMessage(string name)

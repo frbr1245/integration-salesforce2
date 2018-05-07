@@ -7,20 +7,15 @@ namespace Integration.Salesforce.Library.Validation
 {
     [AttributeUsage(AttributeTargets.Property |
         AttributeTargets.Field, AllowMultiple = false)]
-    sealed public class DateValidation : ValidationAttribute
+    sealed public class BoolValidation : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        public bool IsValid(bool value)
         {
-        DateTime temp;
-
-        if(DateTime.TryParse(Convert.ToString(value), out temp) == true)
+        if (value == true)
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
         }
 
         public override string FormatErrorMessage(string name)
