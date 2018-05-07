@@ -1,10 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Integration.Salesforce.Library.Abstract;
 using Integration.Salesforce.Library.Validation;
+using Newtonsoft.Json.Linq;
 
 namespace Integration.Salesforce.Library.Models
 {
-  public class Batch
+  public class Batch : AModel
   {
     [Required]
     [StringValidation(ErrorMessage = "{0} invalid string inputinvalid input")]
@@ -31,6 +33,11 @@ namespace Integration.Salesforce.Library.Models
     public override string ToString()
     {
       return $"{Name}, {SkillType}, {StartDate.ToString()}, {EndDate.ToString()}, {Trainer.ToString()}, {Location.ToString()}";
+    }
+
+    public override void MapJsonToModel(JObject jsonObject)
+    {
+      
     }
   }
 }
