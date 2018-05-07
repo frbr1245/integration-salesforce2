@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Integration.Salesforce.Library.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Integration.Salesforce.Service.Controllers
@@ -12,7 +13,4 @@ namespace Integration.Salesforce.Service.Controllers
       return new List<Person>();
     }
   }
-}
-//TODO: delete this and use actual class
-public class Person {
 }
