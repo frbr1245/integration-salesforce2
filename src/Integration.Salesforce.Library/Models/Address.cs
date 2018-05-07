@@ -4,7 +4,7 @@ using Integration.Salesforce.Library.Validation;
 
 namespace Integration.Salesforce.Library.Models
 {
-    public abstract class Address : AbstractAddress
+    public class Address : AbstractAddress
     {
       [Required]
       [StringValidation(ErrorMessage = "{0} invalid string input")]
@@ -25,7 +25,9 @@ namespace Integration.Salesforce.Library.Models
 
       public override string ToString()
       {
-        return $"{StreetAddress}, {City}, {State}, {Zip}";
+        string returnString = $"ADDRESS{{StreetAddress:{StreetAddress};City:{City};State:{State};Zip:{Zip};}}";
+
+        return returnString;
       }
     }
 }

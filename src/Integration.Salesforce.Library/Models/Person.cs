@@ -22,7 +22,6 @@ namespace Integration.Salesforce.Library.Models
     [StringValidation(ErrorMessage = "{0} invalid string input")]
     public string Role { get; set; }
 
-    [Required]
     [BoolValidation(ErrorMessage = "{0} invalid bool input")]
     public bool HasCar { get; set; }
 
@@ -33,11 +32,16 @@ namespace Integration.Salesforce.Library.Models
     public EMail EMail { get; set; }
 
     [Required]
-    public Batch Batch { get; set; }
+    [StringValidation]
+    public string BatchName { get; set; }
 
     public override string ToString()
     {
-      return $"{FirstName} {LastName}, {Phone}, {Role}, {HasCar}, {Address}, {EMail}, {Batch}";
+      string returnString = $"PERSON{{Name:{FirstName} {LastName};Phone:{Phone};Role:{Role};HasCar:{HasCar};BatchName:{BatchName};}}";
+      returnString += Address.ToString();
+      returnString += EMail.ToString();
+
+      return returnString;
     }
   }
 }
