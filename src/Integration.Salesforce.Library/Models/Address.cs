@@ -6,28 +6,28 @@ namespace Integration.Salesforce.Library.Models
 {
     public class Address : AbstractAddress
     {
-      [Required]
-      [StringValidation(ErrorMessage = "{0} invalid string input")]
-      public override string StreetAddress { get; set; }
+        [Required]
+        [StringValidation(ErrorMessage = "{0} invalid string input")]
+        public override string StreetAddress { get; set; }
 
-      [Required]
-      [StringValidation(ErrorMessage = "{0} invalid string input")]
-      public override string City { get; set; }
+        [Required]
+        [StringValidation(ErrorMessage = "{0} invalid string input")]
+        public override string City { get; set; }
 
-      [Required]
-      [MaxLength(2)]
-      [StringValidation(ErrorMessage = "{0} invalid string input")]
-      public string State { get; set; }
+        [Required]
+        [MaxLength(2)]
+        [StringValidation(ErrorMessage = "{0} invalid string input")]
+        public string State { get; set; }
 
-      [Required]
-      [NumberValidation(ErrorMessage = "{0} invalid number input")]
-      public override int Zip { get; set; }
+        [Required]
+        [NumberValidation(ErrorMessage = "{0} invalid number input")]
+        public override int Zip { get; set; }
 
-      public override string ToString()
-      {
-        string returnString = $"ADDRESS{{StreetAddress:{StreetAddress};City:{City};State:{State};Zip:{Zip};}}";
+        public override string ToString()
+        {
+            string returnString = $"ADDRESS{{StreetAddress:{StreetAddress};City:{City};State:{State};Zip:{Zip};}}";
 
-        return returnString;
-      }
+            return returnString;
+        }
     }
 }
