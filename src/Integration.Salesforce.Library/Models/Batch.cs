@@ -30,7 +30,10 @@ namespace Integration.Salesforce.Library.Models
     
     public override string ToString()
     {
-      return $"{Name}, {SkillType}, {StartDate.ToString()}, {EndDate.ToString()}, {Trainer.ToString()}, {Location.ToString()}";
+      string returnString = $"BATCH{{Name:{Name};SkillType:{SkillType};StartDate:{StartDate.Date.ToString("yyyy-dd-MM")};EndDate:{EndDate.Date.ToString("yyyy-dd-MM")}}}";
+      returnString += Trainer.ToString();
+      returnString += Location.ToString();
+      return returnString;
     }
   }
 }

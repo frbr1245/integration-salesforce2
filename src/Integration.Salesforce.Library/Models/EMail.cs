@@ -11,7 +11,7 @@ namespace Integration.Salesforce.Library.Models
 
     public override string ToString()
     {
-      return $"{cEMail}";
+      return $"EMAIL{{EMail:{cEMail};}}";
     }
   }
 }
