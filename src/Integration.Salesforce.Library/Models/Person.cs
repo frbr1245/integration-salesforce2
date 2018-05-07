@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Integration.Salesforce.Library.Validation;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Integration.Salesforce.Library.Models
 {
@@ -33,9 +34,10 @@ namespace Integration.Salesforce.Library.Models
       public EMail EMail  {get; set; }
 
       [Required]
+      [BsonIgnore]
       public Batch Batch { get; set; }
 
-      public override ToString()
+      public override string ToString()
       {
         return $"{FirstName} {LastName}, {Phone}, {Role}, {HasCar}, {Address}, {EMail}, {Batch}";
       }

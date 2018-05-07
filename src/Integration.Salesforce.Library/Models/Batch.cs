@@ -1,10 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Integration.Salesforce.Library.Abstracts;
 using Integration.Salesforce.Library.Validation;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Integration.Salesforce.Library.Models
 {
-  public class Batch
+  public class Batch : AModel
   {
     [Required]
     [StringValidation(ErrorMessage = "{0} invalid string inputinvalid input")]
