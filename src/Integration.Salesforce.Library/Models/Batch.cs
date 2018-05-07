@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Integration.Salesforce.Library.Models
 {
-    public class Batch : Amodel
+    public class Batch : AModel
     {
         [Required]
         [StringValidation(ErrorMessage = "{0} invalid string inputinvalid input")]
