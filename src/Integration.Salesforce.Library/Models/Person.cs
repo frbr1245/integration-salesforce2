@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Integration.Salesforce.Library.Validation;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Integration.Salesforce.Library.Models
 {
