@@ -7,10 +7,10 @@ namespace Integration.Salesforce.Service.Controllers
   [Route("api/[controller]")]
   public class ApartmentController : Controller {
     [HttpGet]
-    public IEnumerable<Apartment> Get()
+    public IEnumerable<HousingComplex> Get()
     {
       //TODO: return salesforce data
-      return new List<Apartment>();
+      return new List<HousingComplex>();
     }
   }
 }
