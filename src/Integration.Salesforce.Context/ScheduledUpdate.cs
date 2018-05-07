@@ -11,7 +11,7 @@ namespace Integration.Salesforce.Context
     public class ScheduledUpdate
     {
         //private List<SalesforceContext<AModel>> _sfContextList;
-        private DbContext _dbContext;
+        //private DbContext _dbContext;
 
         //Dictionary holding names of tables to query from salesforce
         private Dictionary<string,string> categories = new Dictionary<string, string>(){
@@ -23,7 +23,7 @@ namespace Integration.Salesforce.Context
         public ScheduledUpdate(IOptions<Settings> settings) 
         {
             // _sfContext = new SalesforceContext<AModel>(settings);
-            _dbContext = new DbContext();
+            //_dbContext = new DbContext();
 
             // Update the mongo database asynchronously , during
             // the startup of the program.
