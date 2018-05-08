@@ -19,6 +19,7 @@ namespace Integration.Salesforce.Testing
         [Fact]
         public void DatabaseConnection()
         {
+            DbContext context = new DbContext();
         }
     }
 }

@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json.Linq;
 
-namespace Housing.Foundation.Library.Abstracts
+namespace Integration.Salesforce.Library.Abstract
 {
     public abstract class AModel
     {
@@ -16,5 +15,12 @@ namespace Housing.Foundation.Library.Abstracts
         public string ModelId { get; set; }
 
         public DateTime LastModified { get; set; }
+
+        /// <summary> 
+        /// 
+        /// </summary>
+        public abstract void MapJsonToModel(JObject jsonObject);
+
+
     }
 }
