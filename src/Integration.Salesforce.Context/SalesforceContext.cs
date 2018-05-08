@@ -17,10 +17,6 @@ namespace Integration.Salesforce.Context
 
         // SalesForceUrls contains all the URLs required for all HTTP requests
         protected readonly Dictionary<string, string> SalesforceUrls;
-
-        //(for test purposes)
-        //saves salesforce response here
-        public string sfResponse { get; private set;}
         
         public SalesforceContext(IOptions<Settings> settings)
         {
@@ -67,7 +63,6 @@ namespace Integration.Salesforce.Context
             SalesforceUrls.Add("instance_url", obj["instance_url"].ToString() );
         }
 
-
          /// <summary>
         /// Get all info for object of type AModel from salesforce.
         /// </summary>
@@ -110,12 +105,6 @@ namespace Integration.Salesforce.Context
                 var model = new TModel();
                 model.MapJsonToModel(item);
                 modelList.Add(model);
-            }
-
-            //save allContacts info to sfResponse (test purposes)
-            foreach(var item in allModels)
-            {
-                sfResponse += item;
             }
 
             return modelList;
