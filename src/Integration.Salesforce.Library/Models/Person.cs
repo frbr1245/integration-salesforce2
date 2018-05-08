@@ -1,10 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Integration.Salesforce.Library.Abstract;
 using Integration.Salesforce.Library.Validation;
+using Newtonsoft.Json.Linq;
 
 namespace Integration.Salesforce.Library.Models
 {
-  public class Person
+  public class Person : AModel
   {
     [Required]
     [StringValidation(ErrorMessage = "{0} invalid string input")]
@@ -22,6 +24,7 @@ namespace Integration.Salesforce.Library.Models
     [StringValidation(ErrorMessage = "{0} invalid string input")]
     public string Role { get; set; }
 
+    [Required]
     [BoolValidation(ErrorMessage = "{0} invalid bool input")]
     public bool HasCar { get; set; }
 
@@ -32,16 +35,17 @@ namespace Integration.Salesforce.Library.Models
     public EMail EMail { get; set; }
 
     [Required]
-    [StringValidation]
-    public string BatchName { get; set; }
+    public Batch Batch { get; set; }
 
     public override string ToString()
     {
-      string returnString = $"PERSON{{Name:{FirstName} {LastName};Phone:{Phone};Role:{Role};HasCar:{HasCar};BatchName:{BatchName};}}";
-      returnString += Address.ToString();
-      returnString += EMail.ToString();
-
-      return returnString;
+      return $"{FirstName} {LastName}, {Phone}, {Role}, {HasCar}, {Address}, {EMail}, {Batch}";
     }
+
+    public override void MapJsonToModel(JObject jsonObject)
+    {
+
+    }
+
   }
 }
