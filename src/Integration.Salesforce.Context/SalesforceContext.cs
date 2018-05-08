@@ -5,18 +5,20 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Options;
-using Integration.Salesforce.Library.Abstract;
-using Integration.Salesforce.Library;
+
 
 namespace Integration.Salesforce.Context
 {
-    public class SalesforceContext <TModel> where TModel : AModel, new()
+    public class SalesforceContext
     {
         // SalesForceConfig contains all necessary information to connect to Salesforce API and retrieve data.
         protected readonly Dictionary<string, string> SalesforceConfig;
 
         // SalesForceUrls contains all the URLs required for all HTTP requests
         protected readonly Dictionary<string, string> SalesforceUrls;
+
+        private string oauthToken;
+        private string instanceUrl;
 
         //(for test purposes)
         //saves salesforce response here
@@ -38,14 +40,13 @@ namespace Integration.Salesforce.Context
             SalesforceUrls.Add("login", settings.Value.LoginUrl);
             SalesforceUrls.Add("resource_base", settings.Value.ResourceUrlExtension);
 
-            // Retrieve authorization token from salesforce
-            Task.Run(() => GetAuthToken()).Wait();
+            // Update the salesforce database asynchronously only once, during
+            // the startup of the program.
+            // TODO: Automate this retrieval process, every 24 hours for example.
+            Task.Run(() => RetrieveFromDataSource()).Wait();
         }
 
-        /// <summary>
-        /// login to salesforce and retrieves authorization token
-        /// </summary>
-        private async Task GetAuthToken()
+        private async Task RetrieveFromDataSource()
         {
             // Client used for login
             HttpClient authClient = new HttpClient();
@@ -63,37 +64,24 @@ namespace Integration.Salesforce.Context
 
             // Request body for login will contain the access_token
             JObject obj = JObject.Parse(responseString);
-            SalesforceConfig.Add("access_token", obj["access_token"].ToString() );
-            SalesforceUrls.Add("instance_url", obj["instance_url"].ToString() );
-        }
-
-
-         /// <summary>
-        /// Get all info for object of type AModel from salesforce.
-        /// </summary>
-        /// <param name="str"> specify the data to retrieve from Salesforce  </param>
-        /// <returns> returns IEnumerable of AModels </returns>
-        internal async Task<IEnumerable<TModel>> RetrieveFromSalesforce(string str)
-        {
-            List<TModel> modelList = new List<TModel>();
+            oauthToken = obj["access_token"].ToString();
+            instanceUrl = obj["instance_url"].ToString();
 
             // Client used to GET the data from Salesforce
             HttpClient queryClient = new HttpClient();
 
-            string query = "SELECT Name FROM " + str;
-
             // Build the url using the URLs and URL extensions from appsettings.json
-            string restQuery = SalesforceUrls["instance_url"] + SalesforceUrls["resource_base"] + query;
+            string restQuery = instanceUrl + SalesforceUrls["resource_base"] + "SELECT Name FROM Contact";
 
             // Define headers for the GET request
             // Authorization header and Accept json header
             HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, restQuery);
-            req.Headers.Add("Authorization", "Bearer " + SalesforceConfig["access_token"]);
+            req.Headers.Add("Authorization", "Bearer " + oauthToken);
             req.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             HttpResponseMessage response = await queryClient.SendAsync(req);
 
-            // GET request returns a list of models from Salesforce
+            // GET request returns a list of contacts from Salesforce
             // Parse the response into a JSON object.
             string jsonResponse = await response.Content.ReadAsStringAsync();
             JObject jsonObject = JObject.Parse(jsonResponse);
@@ -101,30 +89,24 @@ namespace Integration.Salesforce.Context
             // Take records from json response
             JArray jsonResponseArray = JArray.Parse(jsonObject["records"].ToString());
 
-            // Returns an IEnum of all requested info as JObjects
-            IEnumerable<JObject> allModels = await GetAll(jsonResponseArray);
-
-            //TODO: map JObjects to actual object models
-            foreach(var item in allModels)
-            {
-                var model = new TModel();
-                model.MapJsonToModel(item);
-                modelList.Add(model);
-            }
+            // Returns an IEnum of all contacts converted to object models
+            //IEnumerable<string> allContacts = await GetAllContacts(jsonRecentItems, oauthToken);
+            IEnumerable<string> allContacts = await GetAllContacts(jsonResponseArray, oauthToken);
 
             //save allContacts info to sfResponse (test purposes)
-            foreach(var item in allModels)
+            foreach(var item in allContacts)
             {
                 sfResponse += item;
             }
 
-            return modelList;
+
         }
-        
-        private async Task<IEnumerable<JObject>> GetAll(JArray contactList)
+
+        //TODO: this method should return an IEnumerable of Models instead of just strings
+        private async Task<IEnumerable<string>> GetAllContacts(JArray contactList, string authToken)
         {
             HttpClient queryClient = new HttpClient();
-            List<JObject> modelList = new List<JObject>();
+            List<string> modelList = new List<string>();
 
             // Iterate through each contact in the JSON array
             // Each contact contains a URL pointing to its resource
@@ -135,11 +117,12 @@ namespace Integration.Salesforce.Context
                 // All requests need the Authorization header and all accepts json
                 HttpRequestMessage contactRequest = new HttpRequestMessage();
                 contactRequest.Method = HttpMethod.Get;
-                contactRequest.Headers.Add("Authorization", "Bearer " + SalesforceConfig["access_token"]);
+                contactRequest.Headers.Add("Authorization", "Bearer " + authToken);
                 contactRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // Build each contact url using the url found in the attributes property
-                string contactURL = SalesforceUrls["instance_url"] + contact["attributes"]["url"];
+                //string contactURL = SalesforceURLs["base"] + contact["attributes"]["url"];
+                string contactURL = instanceUrl + contact["attributes"]["url"];
 
                 contactRequest.RequestUri = new Uri(contactURL);
 
@@ -149,8 +132,15 @@ namespace Integration.Salesforce.Context
 
                 // Receive the contact as a JSON object and map it to object model
                 // Add the mapped object to the list of mapped models
-                JObject jsonContact = JObject.Parse(jsonContactAsString);
-                modelList.Add(jsonContact);
+                //JObject jsonContact = JObject.Parse(jsonContactAsString);
+                //modelList.Add(MapJsonToModel(jsonContact));
+
+                
+                //TODO: map contact from salesforce to object model
+
+                modelList.Add(jsonContactAsString);
+                modelList.Add("+++++");
+
             }
 
             return modelList;

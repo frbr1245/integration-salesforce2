@@ -4,7 +4,7 @@ using System.Text;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Housing.Foundation.Library.Abstracts
+namespace Integration.Salesforce.Library.Abstracts
 {
     public abstract class AModel
     {
