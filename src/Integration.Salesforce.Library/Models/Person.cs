@@ -1,11 +1,13 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Integration.Salesforce.Library.Abstract;
 using Integration.Salesforce.Library.Validation;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json.Linq;
 
 namespace Integration.Salesforce.Library.Models
 {
-    public class Person
+    public class Person : AModel
     {
         [Required]
         [StringValidation(ErrorMessage = "{0} invalid string input")]
@@ -43,6 +45,11 @@ namespace Integration.Salesforce.Library.Models
             returnString += EMail.ToString();
 
             return returnString;
+        }
+
+        public override void MapJsonToModel(JObject jsonObject)
+        {
+
         }
     }
 }

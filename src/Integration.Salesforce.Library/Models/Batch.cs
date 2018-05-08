@@ -1,9 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Integration.Salesforce.Library.Abstracts;
+using Integration.Salesforce.Library.Abstract;
 using Integration.Salesforce.Library.Validation;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json.Linq;
 
 namespace Integration.Salesforce.Library.Models
 {
@@ -37,6 +38,11 @@ namespace Integration.Salesforce.Library.Models
             returnString += Trainer.ToString();
             returnString += Location.ToString();
             return returnString;
+        }
+
+        public override void MapJsonToModel(JObject jsonObject)
+        {
+
         }
     }
 }
