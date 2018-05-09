@@ -30,17 +30,17 @@ namespace Integration.Salesforce.Library.Models
         public Address Address { get; set; }
 
         [Required]
-        public EMail EMail { get; set; }
+        [StringValidation(ErrorMessage = "{0} invalid string input")]
+        public string EMail { get; set; }
 
         [Required]
-        [StringValidation]
+        [StringValidation(ErrorMessage = "{0} invalid string input")]
         public string BatchName { get; set; }
 
         public override string ToString()
         {
             string returnString = $"PERSON{{Name:{FirstName} {LastName};Phone:{Phone};Role:{Role};HasCar:{HasCar};BatchName:{BatchName};}}";
             returnString += Address.ToString();
-            returnString += EMail.ToString();
 
             return returnString;
         }
