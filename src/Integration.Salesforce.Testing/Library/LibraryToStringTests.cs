@@ -14,7 +14,6 @@ namespace Integration.Salesforce.Testing.Library.ModelTests
             // assemble
             Person trainer = md.Trainer();
             Address location = md.Location();
-            Batch batch = md.Batch();
             EMail email = md.EMail();
             // act
             var response = trainer.ToString();
