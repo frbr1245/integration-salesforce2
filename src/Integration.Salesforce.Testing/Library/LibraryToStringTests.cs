@@ -26,6 +26,19 @@ namespace Integration.Salesforce.Testing.Library.ModelTests
         }
 
         [Fact]
+        public void LocationToString_ReturnsValidString_True()
+        {
+            // assemble
+            Address location = md.Location();
+            // act
+            var response = location.ToString();
+            var teststring = $"ADDRESS{{StreetAddress:{location.StreetAddress};City:{location.City};State:{location.State};Zip:{location.Zip};}}";
+            // assert
+            Assert.NotNull(response);
+            Assert.Equal(teststring, response, true);
+        }
+
+        [Fact]
         public void EMailToString_ReturnsValidString_True()
         {
             // assemble
