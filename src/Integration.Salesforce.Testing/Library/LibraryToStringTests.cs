@@ -6,7 +6,7 @@ namespace Integration.Salesforce.Testing.Library.ModelTests
 {
     public class PersonToStringTests
     {
-        ModelData md = new ModelData();
+        // ModelData md = new ModelData();
 
         [Fact]
         public void ContactToString_ReturnsValidString_True()
